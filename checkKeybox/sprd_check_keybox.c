@@ -222,15 +222,15 @@ void register_this_module_ext(struct eng_callback *reg, int *num)
     reg->eng_diag_func = sprd_check_keybox; // rsp function ptr
     modules_num++;
 
-    (reg+1)->type = 0x5D; //main cmd
-    (reg+1)->subtype = 0x2; //sub cmd
-    (reg+1)->diag_ap_cmd = 0x4; // check widevine query
-    (reg+1)->eng_diag_func = sprd_check_widevine; // rsp function ptr
+    (reg+modules_num)->type = 0x5D; //main cmd
+    (reg+modules_num)->subtype = 0x2; //sub cmd
+    (reg+modules_num)->diag_ap_cmd = 0x4; // check widevine query
+    (reg+modules_num)->eng_diag_func = sprd_check_widevine; // rsp function ptr
     modules_num++;
 
-    (reg+1)->type = 0x5; //main cmd
-    (reg+1)->subtype = 0x24; //sub cmd
-    (reg+1)->eng_diag_func = sprd_check_Rotpk; // rsp function ptr
+    (reg+modules_num)->type = 0x5; //main cmd
+    (reg+modules_num)->subtype = 0x24; //sub cmd
+    (reg+modules_num)->eng_diag_func = sprd_check_Rotpk; // rsp function ptr
     modules_num++;
 
     *num = modules_num;
