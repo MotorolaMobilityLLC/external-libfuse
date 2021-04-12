@@ -18,5 +18,33 @@ LOCAL_C_INCLUDES:= \
 
 LOCAL_SHARED_LIBRARIES:= liblog libc libcutils libteeproduction
 
+ifeq ($(strip $(TARGET_ARCH)),arm64)
+CHECKKEYBOX_NPI_FILE := /vendor/lib64/npidevice/libcheckkeybox.so
+SYMLINK := $(TARGET_OUT_VENDOR)/lib64/libcheckkeybox.so
+
+LOCAL_POST_INSTALL_CMD := $(hide) \
+	mkdir -p $(TARGET_OUT_VENDOR)/lib/npidevice; \
+	rm -rf $(SYMLINK) ;\
+	ln -sf $(CHECKKEYBOX_NPI_FILE) $(SYMLINK);
+else
+ifeq ($(strip $(TARGET_ARCH)),x86_64)
+CHECKKEYBOX_NPI_FILE := /vendor/lib64/npidevice/libcheckkeybox.so
+SYMLINK := $(TARGET_OUT_VENDOR)/lib64/libcheckkeybox.so
+
+LOCAL_POST_INSTALL_CMD := $(hide) \
+	mkdir -p $(TARGET_OUT_VENDOR)/lib/npidevice; \
+	rm -rf $(SYMLINK) ;\
+	ln -sf $(CHECKKEYBOX_NPI_FILE) $(SYMLINK);
+else
+CHECKKEYBOX_NPI_FILE := /vendor/lib/npidevice/libcheckkeybox.so
+SYMLINK := $(TARGET_OUT_VENDOR)/lib/libcheckkeybox.so
+
+LOCAL_POST_INSTALL_CMD := $(hide) \
+	mkdir -p $(TARGET_OUT_VENDOR)/lib/npidevice; \
+	rm -rf $(SYMLINK) ;\
+	ln -sf $(CHECKKEYBOX_NPI_FILE) $(SYMLINK);
+endif
+endif
+
 include $(BUILD_SHARED_LIBRARY)
 endif
